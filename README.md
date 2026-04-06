@@ -1,85 +1,83 @@
 # XmlXsdValidator (WinForms)
 
-`XmlXsdValidator`, bir **Windows Forms (.NET 8)** masaüstü uygulamasıdır. Seçtiğiniz bir **XML** dosyasını iki farklı şemaya göre doğrulamak ve (isteğe bağlı) XML’i **hiyerarşik bir grid** üzerinde düzenleyip **XSD kısıtlarına göre anlık doğrulama** almak için geliştirilmiştir.
+`XmlXsdValidator` is a **Windows Forms (.NET 8)** desktop application for validating an **XML** file against **two separate XSDs** and (optionally) editing the XML in a **hierarchical grid** with **live validation based on XSD constraints**.
 
-Uygulama özellikle XML içinde:
-- **Header / `AppHdr`** bölümünü (Header XSD)
-- **Document / `Document`** bölümünü (Document XSD)
+The app validates these sections independently:
+- **Header / `AppHdr`** (Header XSD)
+- **Document / `Document`** (Document XSD)
 
-ayrı ayrı doğrulama yaklaşımını kullanır.
+## Features
 
-## Özellikler
-
-- **XML görüntüleme**: Seçilen XML, sol tarafta okunabilir biçimde gösterilir.
-- **Çift şema ile doğrulama**:
-  - `AppHdr` için Header XSD
-  - `Document` için Document XSD
-- **XML editör (TreeGrid)**:
-  - XML’i editöre yükleyip alanları tablo üzerinde düzenleyebilirsiniz.
-  - Parent/child hiyerarşisi expand/collapse ile yönetilir.
-- **XSD’den kısıt çıkarımı ve validasyon**:
+- **XML viewer**: displays the selected XML on the left side in a readable format.
+- **Validation with two schemas**:
+  - Header XSD for `AppHdr`
+  - Document XSD for `Document`
+- **XML editor (TreeGrid)**:
+  - load XML into the editor and edit fields in a grid.
+  - parent/child hierarchy with expand/collapse.
+- **XSD constraint extraction & validation**:
   - `pattern` (regex), `minLength`, `maxLength`
-  - sayısal limitler (`minInclusive`, `maxInclusive`, vb.)
-  - `enumeration` değerleri (enum alanlar için seçim kutusu)
-- **Hata odaklı UX**:
-  - Geçersiz alanlar grid’de görsel olarak işaretlenir.
-  - Sağ tık menüsünden validasyon özeti ve filtreleme seçenekleri kullanılabilir.
+  - numeric limits (`minInclusive`, `maxInclusive`, etc.)
+  - `enumeration` values (shown as a dropdown for enum fields)
+- **Error-focused UX**:
+  - invalid fields are visually highlighted in the grid.
+  - right-click menu includes validation summary and filtering options.
 
-## Gereksinimler
+## Requirements
 
-- **Windows** (proje `net8.0-windows` ve WinForms)
+- **Windows** (project targets `net8.0-windows` and WinForms)
 - **.NET 8 SDK**
-- (Önerilen) **Visual Studio 2022** (WinForms designer için)
+- (Recommended) **Visual Studio 2022** (for WinForms designer support)
 
-## Çalıştırma
+## Run
 
-### Visual Studio ile
+### Visual Studio
 
-1. `deneme.sln` dosyasını açın
-2. Startup project: `validator`
-3. Çalıştırın (F5)
+1. Open `deneme.sln`
+2. Set startup project to `validator`
+3. Run (F5)
 
-### Komut satırı ile
+### Command line
 
 ```bash
 dotnet --version
 dotnet run --project deneme/validator.csproj
 ```
 
-> Not: WinForms olduğu için uygulama Windows üzerinde çalışır.
+> Note: This is a WinForms app, so it runs on Windows.
 
-## Kullanım
+## Usage
 
-1. **XML** butonundan doğrulanacak `.xml` dosyasını seçin
-2. **Header XSD** butonundan `AppHdr` için `.xsd` dosyasını seçin
-3. **Document XSD** butonundan `Document` için `.xsd` dosyasını seçin
-4. **Doğrula**’ya tıklayın  
-   - Sonuçlar alttaki “Sonuçlar” bölümüne yazılır
-5. (İsteğe bağlı) **XML Editöre Yükle** ile editörü açın ve alanları düzenleyin
-6. **Kaydet** ile değişiklikleri bellekte güncelleyin
-7. **Güncelenen Xml’i Gör** ile güncellenmiş XML’i sol tarafta görüntüleyin
+1. Click **XML** and select the `.xml` file to validate
+2. Click **Header XSD** and select the `.xsd` for `AppHdr`
+3. Click **Document XSD** and select the `.xsd` for `Document`
+4. Click **Doğrula** (Validate)
+   - results are printed in the “Sonuçlar” (Results) box
+5. (Optional) Click **XML Editöre Yükle** (Load to editor) to open the grid editor
+6. Click **Kaydet** (Save) to apply changes in memory
+7. Click **Güncelenen Xml’i Gör** (View updated XML) to display the updated XML on the left
 
-## Kısayollar ve editör ipuçları
+## Shortcuts & editor tips
 
-Editör (grid) üzerinde:
-- **Sağ tık**: Menü (Expand/Collapse, validasyon özeti, filtreleme)
-- **Ctrl + +**: Tümünü genişlet
-- **Ctrl + -**: Tümünü daralt
-- **Ctrl + V**: Validasyon özeti
-- **Space**: Seçili satırda expand/collapse
+In the editor (grid):
+- **Right click**: menu (Expand/Collapse, validation summary, filtering)
+- **Ctrl + +**: expand all
+- **Ctrl + -**: collapse all
+- **Ctrl + V**: validation summary
+- **Space**: expand/collapse the selected row
 
-## Proje yapısı
+## Project structure
 
-- `deneme.sln`: Visual Studio çözümü
-- `deneme/validator.csproj`: WinForms proje dosyası
-- `deneme/Form1.*`: UI ve olay bağlama
-- `deneme/UI/`: Form event akışları
-- `deneme/Operations/`: Grid/Xml operasyonları
-- `deneme/Validation/`: XSD kısıtlarına göre validasyon
-- `deneme/XsdSchemaAnalyzer.cs`: XSD’yi analiz edip kısıt çıkarımı
+- `deneme.sln`: Visual Studio solution
+- `deneme/validator.csproj`: WinForms project
+- `deneme/Form1.*`: UI and event wiring
+- `deneme/UI/`: form event flows
+- `deneme/Operations/`: grid/XML operations
+- `deneme/Validation/`: validation based on XSD constraints
+- `deneme/XsdSchemaAnalyzer.cs`: XSD analysis & constraint extraction
 
-## Notlar / Sınırlamalar
+## Notes / limitations
 
-- Uygulama **Header** için XML içinde `AppHdr`, **Document** için `Document` elementini arar.
-- Boş değerler çoğu kontrolde “geçerli” kabul edilir (zorunlu alan kontrolü şemaya/kurala göre genişletilebilir).
+- The app looks for `AppHdr` (Header) and `Document` (Document section) elements in the XML.
+- Empty values are treated as “valid” in most checks (required-field rules can be added/extended if needed).
 
